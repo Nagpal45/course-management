@@ -13,4 +13,14 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    try{
+        const course = await Course.findById(req.params.id);
+        res.status(200).json(course);
+    }catch(error){
+        console.log(error)
+        res.status(500).json({message: "Internal Server Error"})
+    }
+})
+
 export default router;
