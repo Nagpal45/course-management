@@ -2,6 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv'
 import mongoose from 'mongoose';
 import cors from 'cors';
+import userRoutes from './routes/users.route'
+import courseRoutes from './routes/courses.route'
+import adminRoutes from './routes/admin.route'
+import authRoutes from './routes/auth.route'
 
 dotenv.config();
 const app = express();
@@ -11,6 +15,11 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }))
+
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/auth', authRoutes);
 
 const mongoUri = process.env.MONGO_URI;
 if(!mongoUri){
