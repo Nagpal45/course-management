@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -21,21 +20,6 @@ router.post('/login', async (req, res): Promise<any> => {
             console.error('Invalid password for user:', email);
             return res.status(400).json({ message: 'Invalid password' });
         }
-
-        if (!process.env.JWT_SECRET) {
-            console.error('JWT_SECRET not set');
-            return res.status(500).json({ message: 'Internal server error' });
-        }
-
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite:'none',
-            maxAge: 3600000,
-            path: '/',
-            domain: 'course-management-ssmo.vercel.app',
-        });
 
         return res.status(200).json({ user: { id: user._id, username: user.username, role: user.role } });
     } catch (error) {

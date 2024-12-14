@@ -11,8 +11,12 @@ const AddOrUpdateCourse = () => {
   const{user} = useUser();
 
   useEffect(() => {
-    if (user?.role != "admin") {
-      router.push('/');
+    if (!user) {
+      router.push("/login");
+    }else{
+      if(user.role !== 'admin'){
+        router.push('/');
+      }
     }
   }
   , []);

@@ -12,8 +12,12 @@ const UserCourses = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (user?.role != "user") {
-          router.push('/');
+        if (!user) {
+            router.push("/login");
+        }else{
+            if(user.role !== 'admin'){
+                router.push('/');
+            }
         }
       }
       , []);

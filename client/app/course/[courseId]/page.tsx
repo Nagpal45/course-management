@@ -13,6 +13,12 @@ const CourseDetail = () => {
   const router = useRouter();
 
   useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, []);
+
+  useEffect(() => {
     if (courseId) {
       const fetchCourse = async () => {
         const response = await apiRequest.get(`courses/${courseId}`);
