@@ -1,5 +1,5 @@
 export default interface Course {
-  _id: string;
+  _id: string ;
   title: string;
   description: string;
   duration: number;

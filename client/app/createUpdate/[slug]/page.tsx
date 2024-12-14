@@ -3,10 +3,19 @@ import { useParams, useRouter} from 'next/navigation';
 import { useEffect, useState } from "react";
 import apiRequest from "@/lib/apiRequest";
 import Course from "@/types";
+import { useUser } from '@/lib/authContext';
 
 const AddOrUpdateCourse = () => {
   const { slug } = useParams();
   const router = useRouter();
+  const{user} = useUser();
+
+  useEffect(() => {
+    if (user?.role != "admin") {
+      router.push('/');
+    }
+  }
+  , []);
 
   const [course, setCourse] = useState<Course>({
     title: "",
@@ -19,7 +28,7 @@ const AddOrUpdateCourse = () => {
     if (slug && slug !== "add") {
       const fetchCourse = async () => {
         try {
-          const response = await apiRequest.get(`/admin/courses/${slug}`);
+          const response = await apiRequest.get(`/courses/${slug}`);
           if (response.status === 200) {
             setCourse(response.data);
           } else {

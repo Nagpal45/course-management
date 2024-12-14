@@ -19,6 +19,7 @@ router.post("/courses", async (req, res) => {
 
 router.put("/courses/:id", async (req, res) => {
   const courseId = req.params.id;
+  
   const { title, description, duration, instructor } = req.body;
   try {
     const course = await Course.findByIdAndUpdate(courseId, {

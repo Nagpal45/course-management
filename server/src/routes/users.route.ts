@@ -11,12 +11,17 @@ router.post("/enroll/:courseId", async (req, res) => {
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
     const user = await User.findById(userId);
     if (user) {
-      user.courses.push(courseObjectId);
-      await user.save();
+      if(user.courses.includes(courseObjectId)){
+         res.status(201).json({message: "User already enrolled in course"});
+      }
+      else{
+        user.courses.push(courseObjectId);
+        await user.save();
+        res.status(200).json({ message: "Enrolled in Course Successfully" });
+      }
     } else {
       res.status(400).json({ message: "User not found" });
     }
-    res.status(200).json({ message: "Enrolled in Course Successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({message: "Internal Server Error"});
