@@ -7,39 +7,42 @@ import dotenv from 'dotenv';
 dotenv.config();
 const router = Router();
 
-router.post('/login', async (req, res) : Promise<any> => {
+router.post('/login', async (req, res): Promise<any> => {
     const { email, password } = req.body;
-    try{
+    try {
         const user = await User.findOne({ email });
-        if(!user){
+        if (!user) {
+            console.error('User not found for email:', email);
             return res.status(400).json({ message: 'User not found' });
         }
 
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
+            console.error('Invalid password for user:', email);
             return res.status(400).json({ message: 'Invalid password' });
         }
 
         if (!process.env.JWT_SECRET) {
+            console.error('JWT_SECRET not set');
             return res.status(500).json({ message: 'Internal server error' });
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.cookie('token', token, {
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
+            sameSite: process.env.NODE_ENV === 'production',
             maxAge: 3600000,
             path: '/',
         });
 
-        const response = res.status(200).json({ user: { id: user._id, username: user.username, role: user.role } });
-        return response;
+        return res.status(200).json({ user: { id: user._id, username: user.username, role: user.role } });
     } catch (error) {
+        console.error('Login error:', error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 router.post('/register', async (req, res): Promise<any> => {
     const { username, email, password, role, secretKey } = req.body;
