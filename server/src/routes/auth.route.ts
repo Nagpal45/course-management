@@ -30,6 +30,7 @@ router.post('/login', async (req, res) : Promise<any> => {
             httpOnly: true,
             secure: true,
             sameSite: 'none',
+            domain: 'course-management-rjew.onrender.com'
         });
 
         const response = res.status(200).json({ user: { id: user._id, username: user.username, role: user.role } });
