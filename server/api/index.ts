@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: ['https://course-management-weld-beta.vercel.app', 'http://localhost:3001'],
+    origin: 'https://course-management-weld-beta.vercel.app',
     credentials: true
 }))
 
