@@ -4,6 +4,7 @@ import { jwtVerify } from 'jose';
 
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('token');
+    console.log(token);
 
     if (!token) {
         return NextResponse.redirect(new URL('/login', request.url));
@@ -11,11 +12,14 @@ export async function middleware(request: NextRequest) {
 
     try {
         const secret = process.env.JWT_SECRET;
+        console.log(secret);
+        
         if (!secret) {
             throw new Error('JWT_SECRET is not defined');
         }
         
         const isValid = await jwtVerify(token.value, new TextEncoder().encode(secret));
+        console.log(isValid);
         if (!isValid) {
             throw new Error('Invalid token');
         }
