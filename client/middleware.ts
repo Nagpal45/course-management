@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
         const secret = process.env.JWT_SECRET;
         console.log(secret);
         
-        if (!secret) {s
+        if (!secret) {
             throw new Error('JWT_SECRET is not defined');
         }
         
