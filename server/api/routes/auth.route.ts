@@ -31,9 +31,10 @@ router.post('/login', async (req, res): Promise<any> => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: true,
-            sameSite: 'none',
+            sameSite:'none',
             maxAge: 3600000,
             path: '/',
+            domain: '.vercel.app',
         });
 
         return res.status(200).json({ user: { id: user._id, username: user.username, role: user.role } });
