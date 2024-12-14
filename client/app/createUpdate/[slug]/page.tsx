@@ -18,6 +18,7 @@ const AddOrUpdateCourse = () => {
   , []);
 
   const [course, setCourse] = useState<Course>({
+    _id: "",
     title: "",
     description: "",
     duration: 0,
