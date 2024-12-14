@@ -15,7 +15,7 @@ const UserCourses = () => {
         if (!user) {
             router.push("/login");
         }else{
-            if(user.role !== 'admin'){
+            if(user.role !== 'user'){
                 router.push('/');
             }
         }
