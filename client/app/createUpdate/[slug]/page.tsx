@@ -1,11 +1,12 @@
-import { useRouter } from "next/router";
+"use client";
+import { useParams, useRouter} from 'next/navigation';
 import { useEffect, useState } from "react";
 import apiRequest from "@/lib/apiRequest";
 import Course from "@/types";
 
 const AddOrUpdateCourse = () => {
+  const { slug } = useParams();
   const router = useRouter();
-  const { slug } = router.query;
 
   const [course, setCourse] = useState<Course>({
     title: "",
@@ -46,7 +47,7 @@ const AddOrUpdateCourse = () => {
     const url = isUpdating ? `/admin/courses/${slug}` : "/admin/courses";
 
     try {
-      const response = await apiRequest[method](url, { course });
+      const response = await apiRequest[method](url, course);
       if (response.status === 200 || response.status === 201) {
         console.log(isUpdating ? "Course updated successfully" : "Course added successfully");
         router.push("/");

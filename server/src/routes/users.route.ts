@@ -26,7 +26,8 @@ router.post("/enroll/:courseId", async (req, res) => {
 router.get("/courses/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
-    const user = await User.findById(userId).populate("courses");
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const user = await User.findById(userObjectId).populate("courses");
     if (user) {
       res.status(200).json(user.courses);
     } else {

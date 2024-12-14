@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
+"use client"
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import apiRequest from "@/lib/apiRequest";
 import Course from "@/types";
 
 const CourseDetail = () => {
-  const router = useRouter();
-  const { courseId } = router.query; 
+  const { courseId } = useParams();
 
   const [course, setCourse] = useState<Course | null>(null);
 
