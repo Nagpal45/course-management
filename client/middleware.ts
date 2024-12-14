@@ -28,5 +28,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/course/:path*', '/createUpdate/:path*', '/userCourses'],
+    matcher: ['/', '/course/:path*', '/createUpdate/:path*', '/userCourses'],
 };

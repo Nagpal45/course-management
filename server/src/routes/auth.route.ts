@@ -28,8 +28,8 @@ router.post('/login', async (req, res) : Promise<any> => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            secure: true,
+            sameSite: 'none',
         });
 
         const response = res.status(200).json({ user: { id: user._id, username: user.username, role: user.role } });
